@@ -1,0 +1,115 @@
+<div class="flex flex-col justify- items-start">
+  <div class="flex">
+    <form
+      [formGroup]="uploadMeme"
+      class="max-w-md mx-5 space-y-4"
+      (submit)="upload()"
+    >
+    <div class="text-2xl my-5">Meme Upload Form</div>
+
+      <div>
+        <label for="email">Meme Name</label>
+
+        <div class="relative">
+          <input
+            type="text"
+            class="w-full p-4 pr-12 text-sm border-gray-400 rounded-lg shadow-sm"
+            placeholder="Enter Meme Name"
+            formControlName="meme_name"
+          />
+        </div>
+        <span
+          class="text-red-500"
+          *ngIf="f?.['meme_name']?.touched && f?.['meme_name']?.errors?.['required']"
+        >
+          Meme Name is required
+        </span>
+      </div>
+
+      <div class="flex flex-col">
+        <label for="email">Upload Image</label>
+        <div
+          class="flex justify-start items-center border-gray-600 rounded-lg shadow-sm w-full"
+        >
+          <input
+            type="file"
+            hidden
+            class="text-nowrap text-truncate"
+            (change)="uploadImage($event)"
+            #uploadImg
+            accept="image/*"
+          />
+          <button
+            type="button"
+            class="p-4 text-sm border-gray-600 bg-black rounded-tl-lg rounded-bl-lg shadow-sm text-white"
+            (click)="uploadImg.click()"
+          >
+            Upload
+          </button>
+          <div class="pl-5">
+            {{ uploadMeme.get("image_filename")?.value }}
+          </div>
+        </div>
+      </div>
+
+      <div class="flex flex-col">
+        <label for="email">Upload Audio</label>
+        <div
+          class="flex justify-start items-center border-gray-600 rounded-lg shadow-sm w-full"
+        >
+          <input
+            type="file"
+            hidden
+            name="audio"
+            class="text-nowrap text-truncate"
+            #uploadmp3
+            (change)="uploadAudio($event)"
+            accept="audio/*"
+          />
+          <button
+            type="button"
+            class="p-4 text-sm border-gray-600 bg-black rounded-tl-lg rounded-bl-lg shadow-sm text-white"
+            (click)="uploadmp3.click()"
+          >
+            Upload
+          </button>
+          <div class="pl-5">
+            {{ uploadMeme.get("audio_filename")?.value }}
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between">
+        <button
+          type="submit"
+          class="inline-block px-5 py-3 text-sm font-medium text-white bg-blue-500 rounded-lg"
+          [disabled]="uploadMeme.invalid"
+        >
+          Add Meme
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+<div class="flex justify-around items-center flex-wrap wrap">
+    <a class="block overflow-hidden rounded-2xl my-5" *ngFor="let data of preview">
+        <img
+          class="object-cover w-full h-56"
+          src={{data?.image_url}}
+          alt=""
+        />
+      
+        <div class="p-4 bg-gray-900">
+      
+          <h3 class="text-sm text-white my-3">
+           {{data?.meme_name}}
+          </h3>
+      
+          <audio src="{{data?.audio_url}}" controls></audio>
+        </div>
+      </a>
+</div>
+
+
